@@ -1,7 +1,7 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 
-List<String> imageSource(levelIndex) {
+List<String> imageSource2(levelIndex) {
   return [
     'assets/images/image_${levelIndex}-1.png',
     'assets/images/image_${levelIndex}-2.png',
@@ -14,9 +14,25 @@ List<String> imageSource(levelIndex) {
   ];
 }
 
-List createShuffledListFromImageSource(levelIndex) {
+List<String> imageSource(nowLevelDish) {
+  return [
+    'assets/images/ingredients/${nowLevelDish}/1.png',
+    'assets/images/ingredients/${nowLevelDish}/2.png',
+    'assets/images/ingredients/${nowLevelDish}/3.png',
+    'assets/images/ingredients/${nowLevelDish}/4.png',
+    'assets/images/ingredients/${nowLevelDish}/1.png',
+    'assets/images/ingredients/${nowLevelDish}/2.png',
+    'assets/images/ingredients/${nowLevelDish}/3.png',
+    'assets/images/ingredients/${nowLevelDish}/4.png',
+  ];
+}
+
+List createShuffledListFromImageSource(nowLevel) {
+  print(nowLevel);
+  final nowLevelDish = nowLevel["dish"];
+
   List shuffledImages = [];
-  List sourceArray = imageSource(levelIndex);
+  List sourceArray = imageSource(nowLevelDish);
   for (var element in sourceArray) {
     shuffledImages.add(element);
   }

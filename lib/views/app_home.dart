@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/views/cook_diary.dart';
 import 'package:flutter_application_1/views/game_screen.dart';
 import 'package:flutter_application_1/views/start_game_screen.dart';
@@ -28,12 +29,12 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
             ),
             child: SafeArea(
                 child: Center(
-                    child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Column(
-                  children: [
-                    Stack(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Stack(
                       children: [
                         Container(
                           width: 260,
@@ -50,13 +51,10 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                             )),
                       ],
                     ),
-                    // Container(
-                    //     child: CircleAvatar(
-                    //   radius: 130,
-                    //   backgroundImage: AssetImage(
-                    //       'assets/avatar.jpg'), // Replace with your avatar image
-                    // )),
-                    Container(
+                  ),
+                  Expanded(
+                    flex: 5,
+                    child: Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 28, vertical: 26),
                       decoration: BoxDecoration(
@@ -66,38 +64,136 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                             topRight: Radius.circular(20)), // 設置圓角
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Jim',
-                            style: TextStyle(
-                                fontSize: 32, color: Color(0xff806E63)),
+                          Center(
+                            child: Text(
+                              '王老爺爺',
+                              style: TextStyle(
+                                  fontSize: 32, color: Color(0xff806E63)),
+                            ),
                           ),
-                          SizedBox(
-                            height: 30,
+                          // SizedBox(
+                          //   height: 60,
+                          // ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StartGameScreen(),
+                                ),
+                              );
+                              // print("nav to 家族時光");
+                            },
+                            child: Column(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 28, vertical: 6),
+                                  child: Container(
+                                    width: 160,
+                                    height: 160,
+                                    child: Image.asset(
+                                      'assets/images/ftlogo.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  // color: Colors.black12,
+                                  // width: double.infinity,
+                                  // margin: EdgeInsets.only(bottom: 20), // 設置底部 margin
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffF2D5CF), // 設置背景顏色
+                                    borderRadius:
+                                        BorderRadius.circular(10), // 設置圓角
+                                  ),
+                                  child: Text(
+                                    "家庭食光",
+                                    style: TextStyle(
+                                      fontSize: 32,
+                                      color: Color(0xFF705E51),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          // Text("111"),
-                          MainMenuList(),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 20, top: 20),
-                            child: const MySeparator(color: Color(0xFFC2ADAD)),
+                          GestureDetector(
+                            onTap: () {
+                              print("料理日記");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CookDiaryScreen(),
+                                  ));
+                            },
+                            child: Column(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 28, vertical: 6),
+                                  child: Container(
+                                    width: 160,
+                                    height: 160,
+                                    child: Image.asset(
+                                      'assets/images/ddlogo.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  // margin: EdgeInsets.only(bottom: 20), // 設置底部 margin
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffEBD8C9), // 設置背景顏色
+                                    borderRadius:
+                                        BorderRadius.circular(10), // 設置圓角
+                                  ),
+                                  child: Text(
+                                    "料理日記",
+                                    style: TextStyle(
+                                      fontSize: 32,
+                                      color: Color(0xFF705E51),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
 
-                          BottomMenuList()
+                          // Text("111"),
+                          // MainMenuList(),
+                          // Container(
+                          //   margin: EdgeInsets.only(bottom: 20, top: 20),
+                          //   child: const MySeparator(color: Color(0xFFC2ADAD)),
+                          // ),
+
+                          // BottomMenuList()
                         ],
                       ),
                     ),
-                  ],
+                  )
+                ],
 
-                  //   children: [
-                  //     Container(
-                  //       child: CircleAvatar(
-                  //         radius: 130,
-                  //         backgroundImage: AssetImage(
-                  //             'assets/avatar.jpg'), // Replace with your avatar image
-                  //       ),Container()]
-                ),
-              ],
-            )))));
+                //   children: [
+                //     Container(
+                //       child: CircleAvatar(
+                //         radius: 130,
+                //         backgroundImage: AssetImage(
+                //             'assets/avatar.jpg'), // Replace with your avatar image
+                //       ),Container()]
+              ),
+            ))));
   }
 
   // SizedBox(height: 16),
@@ -129,9 +225,13 @@ class MainMenuList extends StatelessWidget {
                     Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 28, vertical: 6),
-                      child: Image.asset(
-                        'assets/images/logo3.png',
-                        fit: BoxFit.cover,
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        child: Image.asset(
+                          'assets/images/ftlogo.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Container(
@@ -162,7 +262,6 @@ class MainMenuList extends StatelessWidget {
 
             Expanded(
               child: GestureDetector(
-                
                 onTap: () {
                   print("料理日記");
                   Navigator.push(
@@ -178,9 +277,13 @@ class MainMenuList extends StatelessWidget {
                     Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 28, vertical: 6),
-                      child: Image.asset(
-                        'assets/images/dishDiary.png',
-                        fit: BoxFit.cover,
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        child: Image.asset(
+                          'assets/images/ddlogo.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                     Container(

@@ -1,15 +1,17 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-
-class GameOverScreen extends StatefulWidget {
+import 'package:flutter_application_1/model/levelInfo_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+class GameOverScreen extends ConsumerStatefulWidget {
   final int duration;
   const GameOverScreen({super.key, required this.duration});
 
   @override
-  State<GameOverScreen> createState() => _GameOverScreenState();
+  ConsumerState<GameOverScreen> createState() => _GameOverScreenState();
 }
 
-class _GameOverScreenState extends State<GameOverScreen> {
+class _GameOverScreenState extends ConsumerState<GameOverScreen> {
+  
   bool isConfettiPlaying = true;
   final _confettiController = ConfettiController(
     duration: const Duration(seconds: 12),
@@ -29,6 +31,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final levelInfo = ref.watch(nowLevelProvider);
     final theme = Theme.of(context).textTheme;
     return Scaffold(
       body: Stack(

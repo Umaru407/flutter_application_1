@@ -1,8 +1,8 @@
 class CookDiaryModel {
   int? id;
-  String? dishName;
+  String dishName;
   String? image64bit;
-  int mealType; //1早餐 2午餐 3中餐
+  String mealType; //1早餐 2午餐 3中餐
   DateTime dateTime;
 
   CookDiaryModel(
@@ -16,6 +16,7 @@ class CookDiaryModel {
     Map<String, dynamic> map = {
       "name": dishName,
       "image64bit": image64bit,
+      "mealType": mealType,
       'dateTime': dateTime.toIso8601String(),
     };
 
@@ -26,11 +27,23 @@ class CookDiaryModel {
     return map;
   }
 
-  factory CookDiaryModel.fromMap(Map<String, dynamic> map) => CookDiaryModel(
-        id: map["id"],
-        dishName: map["name"],
-        mealType: map["mealType"],
-        image64bit: map["image64bit"],
-        dateTime: DateTime.parse(map['dateTime']),
-      );
+
+  factory CookDiaryModel.fromMap(Map<String, dynamic> map) {
+    return CookDiaryModel(
+      id: map["id"],
+      dishName: map["name"],
+      mealType: map["mealType"],
+      image64bit: map["image64bit"],
+      dateTime: DateTime.parse(map['dateTime']),
+    );
+  }
+
+
+  // factory CookDiaryModel.fromMap(Map<String, dynamic> map) =>  CookDiaryModel(
+  //       id: map["id"],
+  //       dishName: map["name"],
+  //       mealType: map["mealType"],
+  //       image64bit: map["image64bit"],
+  //       dateTime: DateTime.parse(map['dateTime']),
+  //     );
 }

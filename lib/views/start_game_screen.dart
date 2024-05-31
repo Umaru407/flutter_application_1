@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/levelInfo_provider.dart';
 import 'package:flutter_application_1/views/game_screen.dart';
 import 'package:lottie/lottie.dart';
 
@@ -89,7 +90,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
 class MenuList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final level = ref.watch(levelProvider).state;
+    final levels = ref.watch(levelInfoProvider).levels;
 
     return Padding(
       padding: EdgeInsets.only(),
@@ -99,10 +100,11 @@ class MenuList extends ConsumerWidget {
           color: Color(0xFFE2C6C4).withOpacity(0.87),
         ),
         child: ListView.builder(
-          itemCount: 5, // 假设有5个关卡
+          itemCount: levels.length, // 假设有5个关卡
           itemBuilder: (context, index) {
             return LevelChooseCard(
-              levelIndex: index + 1,
+              levelIndex: index,
+              // levelInfo: levels[index],
               // onTap: () {
               //   // 更新选择的关卡状态
               //   //context.read(selectedLevelProvider).state = index;
@@ -114,40 +116,17 @@ class MenuList extends ConsumerWidget {
     );
   }
 }
-// class MenuList extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.all(16),
-//       child: Container(
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(25.0),
-//           color: Color(0xFFE2C6C4),
-//         ),
-//         child: ListView(
-//           padding: const EdgeInsets.all(25),
-//           children: [
-//             MenuItem(icon: Icons.fastfood, name: 'Dish 1',index:1),
-//             MenuItem(icon: Icons.fastfood, name: 'Dish 2',index:2),
-//             MenuItem(icon: Icons.fastfood, name: 'Dish 3',index:1),
-//             MenuItem(icon: Icons.fastfood, name: 'Dish 4',index:2),
-//             MenuItem(icon: Icons.fastfood, name: 'Dish 5',index:1),
-//             MenuItem(icon: Icons.fastfood, name: 'Dish 6',index:2),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class LevelChooseCard extends ConsumerWidget {
   // @override
   final int levelIndex;
+  // final Map levelInfo;
 
   LevelChooseCard({required this.levelIndex});
 // int levelIndex1 = levelIndex;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var levelInfo = ref.watch(levelInfoProvider).levels[levelIndex];
     return Padding(
       padding:
           const EdgeInsets.only(left: 25, right: 25, bottom: 12.5, top: 12.5),
@@ -156,8 +135,10 @@ class LevelChooseCard extends ConsumerWidget {
         // tileColor: const Color.fromARGB(137, 139, 19, 19),
         onTap: () {
           // print("@@@");
-          print(levelIndex);
-          ref.read(levelProvider.notifier).state = levelIndex;
+          // print(levelIndex);
+          // 更新 nowLevelProvider 的狀態
+          ref.read(nowLevelProvider.notifier).state = levelInfo;
+          // ref.read(levelProvider.notifier).state = levelIndex;
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -166,26 +147,19 @@ class LevelChooseCard extends ConsumerWidget {
           );
         },
         height: 128, // Set custom height for each list tile
-        leading: Image.asset('assets/images/chicken.png'), // Leading image
-        title: const Text('三杯雞',
+        leading: ClipRRect(
+            borderRadius: BorderRadius.circular(16.0), // 設置邊框半徑為16.0，可以根據需要調整
+            //  levelInfo['dish_img_url']
+            child: Image.asset(
+              levelInfo['dish_img_url'],
+              fit: BoxFit.cover, // 根據需要調整
+            )),
+
+        // Leading image
+        title: Text(levelInfo['dish'],
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
       ),
     );
-  }
-}
-
-class MenuItem extends StatelessWidget {
-  final IconData icon;
-  final String name;
-  final int index;
-
-  MenuItem({required this.icon, required this.name, required this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: LevelChooseCard(levelIndex: index));
   }
 }
 

@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/data.dart';
+import 'package:flutter_application_1/model/levelInfo_provider.dart';
 import 'package:flutter_application_1/views/game_over_screen.dart';
 import 'package:flutter_application_1/views/start_game_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// final selectedDateProvider = StateProvider<DateTime>((ref) => DateTime.now());
 
 class MyFlipCardGame extends ConsumerStatefulWidget {
   final int levelIndex;
@@ -17,7 +21,6 @@ class MyFlipCardGame extends ConsumerStatefulWidget {
 
 class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
   @override
-
   // final int levelIndex
   // _MyFlipCardGameState({required this.levelIndex});
 
@@ -60,8 +63,8 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
     });
   }
 
-  void initializeGameData(levelIndex) {
-    _data = createShuffledListFromImageSource(levelIndex);
+  void initializeGameData(nowLevel) {
+    _data = createShuffledListFromImageSource(nowLevel);
     _cardFlips = getInitialItemStateList();
     _cardStateKeys = createFlipCardStateKeysList();
     _time = 3;
@@ -71,11 +74,12 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
 
   @override
   void initState() {
-    final levelIndex = ref.read(levelProvider);
+    final nowLevel = ref.read(nowLevelProvider);
+    // final levelIndex = ref.read(levelProvider);
     startTimer();
     startDuration();
     startGameAfterDelay();
-    initializeGameData(levelIndex);
+    initializeGameData(nowLevel);
     super.initState();
   }
 
@@ -139,27 +143,7 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
                         Image.asset('assets/images/chef1.png')
                       ],
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     Text(
-                    //       'Remaining: $_left',
-                    //       style: theme.bodyMedium,
-                    //     ),
-                    //     Text(
-                    //       'Duration: ${gameDuration}s',
-                    //       style: theme.bodyMedium,
-                    //     ),
-                    //     Text(
-                    //       'Countdown: $_time',
-                    //       style: theme.bodyMedium,
-                    //     )
-                    //   ],
-                    // ),
                   ),
-                  // const SizedBox(
-                  //   height:100,
-                  // ),
                   GridView.builder(
                     padding: const EdgeInsets.only(right: 84, left: 84),
                     shrinkWrap: true,
@@ -239,9 +223,7 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
                         : getItem(index),
                     itemCount: _data.length,
                   ),
-
                   Container(
-                    
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       color: Color(0xffD6C3B4),
@@ -258,12 +240,14 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
   }
 }
 
-class Recipe extends StatelessWidget {
+class Recipe extends ConsumerWidget {
   // final Map<String, dynamic> recipe;
   // const Recipe({super.key, required this.recipe});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final levelInfo = ref.watch(nowLevelProvider);
+    final List ingredients = levelInfo?['recipe']['ingredients'];
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -277,9 +261,9 @@ class Recipe extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/chicken.png'),
+                Image.asset(levelInfo?['dish_img_url']),
                 Text(
-                  '三杯雞',
+                  levelInfo?['dish'],
                   style: TextStyle(fontSize: 22),
                 ),
               ],
@@ -304,13 +288,16 @@ class Recipe extends StatelessWidget {
             Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("雞肉300克", style: TextStyle(fontSize: 14)),
-                  Text("醬油3大匙", style: TextStyle(fontSize: 14)),
-                  Text("冰糖一大匙", style: TextStyle(fontSize: 14)),
-                  Text("九層塔適量", style: TextStyle(fontSize: 14)),
-                  Text("薑片適量", style: TextStyle(fontSize: 14)),
-                ],
+                children: ingredients.map((ingredient) {
+                  return Text(ingredient, style: TextStyle(fontSize: 14));
+                }).toList(),
+                // [
+                //   Text("雞肉300克", style: TextStyle(fontSize: 14)),
+                //   Text("醬油3大匙", style: TextStyle(fontSize: 14)),
+                //   Text("冰糖一大匙", style: TextStyle(fontSize: 14)),
+                //   Text("九層塔適量", style: TextStyle(fontSize: 14)),
+                //   Text("薑片適量", style: TextStyle(fontSize: 14)),
+                // ],
               ),
             ),
             SizedBox(
