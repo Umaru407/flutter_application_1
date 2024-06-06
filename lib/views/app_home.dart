@@ -78,98 +78,110 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                           //   height: 60,
                           // ),
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => StartGameScreen(),
-                                ),
-                              );
-                              // print("nav to 家族時光");
-                            },
-                            child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 28, vertical: 6),
-                                  child: Container(
-                                    width: 160,
-                                    height: 160,
-                                    child: Image.asset(
-                                      'assets/images/ftlogo.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // color: Colors.black12,
-                                  // width: double.infinity,
-                                  // margin: EdgeInsets.only(bottom: 20), // 設置底部 margin
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffF2D5CF), // 設置背景顏色
-                                    borderRadius:
-                                        BorderRadius.circular(10), // 設置圓角
-                                  ),
-                                  child: Text(
-                                    "家庭食光",
-                                    style: TextStyle(
-                                      fontSize: 32,
-                                      color: Color(0xFF705E51),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              print("料理日記");
-                              Navigator.push(
+                              onTap: () {
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => CookDiaryScreen(),
-                                  ));
-                            },
-                            child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.center,
+                                    builder: (context) => StartGameScreen(),
+                                  ),
+                                );
+                                // print("nav to 家族時光");
+                              },
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    color: Color(0xffF6EBE3),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20)) // 設置背景顏色
+                                    ),
+                                child: Column(
+                                  // mainAxisAlignment: MainAxisAlignment.center,
 
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 28, vertical: 6),
-                                  child: Container(
-                                    width: 160,
-                                    height: 160,
-                                    child: Image.asset(
-                                      'assets/images/ddlogo.png',
-                                      fit: BoxFit.contain,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 28, vertical: 6),
+                                      child: Container(
+                                        width: 160,
+                                        height: 160,
+                                        child: Image.asset(
+                                          'assets/images/ftlogo.png',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Container(
-                                  // margin: EdgeInsets.only(bottom: 20), // 設置底部 margin
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffEBD8C9), // 設置背景顏色
-                                    borderRadius:
-                                        BorderRadius.circular(10), // 設置圓角
-                                  ),
-                                  child: Text(
-                                    "料理日記",
-                                    style: TextStyle(
-                                      fontSize: 32,
-                                      color: Color(0xFF705E51),
+                                    Container(
+                                      // color: Colors.black12,
+                                      // width: double.infinity,
+                                      // margin: EdgeInsets.only(bottom: 20), // 設置底部 margin
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 8),
+                                      decoration: BoxDecoration(
+                                          // color: Color(0xffF2D5CF), // 設置背景顏色
+                                          // borderRadius:
+                                          //     BorderRadius.circular(10), // 設置圓角
+                                          ),
+                                      child: Text(
+                                        "家庭食光",
+                                        style: TextStyle(
+                                          fontSize: 32,
+                                          color: Color(0xFF705E51),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                print("料理日記");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CookDiaryScreen(),
+                                    ));
+                              },
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    color: Color(0xffF6EBE3),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20)) // 設置背景顏色
+                                    ),
+                                child: Column(
+                                  // mainAxisAlignment: MainAxisAlignment.center,
+
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 28, vertical: 6),
+                                      child: Container(
+                                        width: 160,
+                                        height: 160,
+                                        child: Image.asset(
+                                          'assets/images/ddlogo.png',
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      // margin: EdgeInsets.only(bottom: 20), // 設置底部 margin
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 8),
+                                      decoration: BoxDecoration(
+                                        // color: Color(0xffEBD8C9), // 設置背景顏色
+                                        // borderRadius:
+                                        //     BorderRadius.circular(10), // 設置圓角
+                                      ),
+                                      child: Text(
+                                        "料理日記",
+                                        style: TextStyle(
+                                          fontSize: 32,
+                                          color: Color(0xFF705E51),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
 
                           // Text("111"),
                           // MainMenuList(),

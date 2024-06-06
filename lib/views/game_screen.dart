@@ -5,6 +5,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/data.dart';
 import 'package:flutter_application_1/model/levelInfo_provider.dart';
+import 'package:flutter_application_1/views/cook_game.dart';
 import 'package:flutter_application_1/views/game_over_screen.dart';
 import 'package:flutter_application_1/views/start_game_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -104,10 +105,9 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final List a = ['a', 'a', 'a', 'a'];
     return _isFinished
-        ? GameOverScreen(
-            duration: gameDuration,
-          )
+        ? CookGameScreen()
         : Scaffold(
             appBar: AppBar(
               elevation: 0,
@@ -120,7 +120,7 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
             ),
             body: SafeArea(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(0),
@@ -131,7 +131,7 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
                         BubbleSpecialOne(
                           text: '找到相同食材點擊形成配對!',
                           isSender: true,
-                          color: Color(0xffD6C3B4),
+                          color: Color.fromARGB(255, 154, 122, 97),
                           textStyle: TextStyle(
                             fontSize: 20,
                             color: Color(0xffffffff),
@@ -224,15 +224,18 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
                     itemCount: _data.length,
                   ),
                   Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Color(0xffD6C3B4),
-                      // color: Color(0xFFE2C6C4).withOpacity(0.87),
-                    ),
-                    // padding: EdgeInsets.all(0),
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    child: Recipe(),
-                  ),
+                      margin: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Color(0xffD6C3B4),
+                        // color: Color(0xFFE2C6C4).withOpacity(0.87),
+                      ),
+                      // padding: EdgeInsets.all(0),
+                      // margin: EdgeInsets.only(left: 20, right: 20),
+                      child: Container(
+                        child: Recipe(),
+                        margin: EdgeInsets.all(8),
+                      ))
                 ],
               ),
             ),
@@ -240,73 +243,104 @@ class _MyFlipCardGameState extends ConsumerState<MyFlipCardGame> {
   }
 }
 
-class Recipe extends ConsumerWidget {
-  // final Map<String, dynamic> recipe;
-  // const Recipe({super.key, required this.recipe});
+// class Recipe extends ConsumerWidget {
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final levelInfo = ref.watch(nowLevelProvider);
+//     final List ingredients = levelInfo?['recipe']['ingredients'];
+//     final List a = ['a', 'a', 'a', 'a'];
+//     return Container(
+//       // width: 1,
+//       child: GridView.builder(
+//         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//           crossAxisCount: 2, // 每行有兩個欄
+//           childAspectRatio: 1, // 子元素的寬高比，根據需求調整
+//         ),
+//         shrinkWrap: true,
+//         itemCount: a.length,
+//         itemBuilder: (context, index) {
+//           return Center(
+//             child: Text(
+//               a[index],
+//               style: TextStyle(fontSize: 12),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
+class Recipe extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final levelInfo = ref.watch(nowLevelProvider);
     final List ingredients = levelInfo?['recipe']['ingredients'];
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      // mainAxisSize: MainAxisSize.max,
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-            child: Container(
-          // padding: EdgeInsets.all(20),
-          child: Container(
-            margin: EdgeInsets.all(26),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(levelInfo?['dish_img_url']),
-                Text(
-                  levelInfo?['dish'],
-                  style: TextStyle(fontSize: 22),
-                ),
-              ],
-            ),
+          // margin: EdgeInsets.all(16),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 120,
+                child: Image.asset(levelInfo?['dish_img_url']),
+              ),
+              Text(
+                levelInfo?['dish'],
+                style: TextStyle(fontSize: 24),
+              ),
+            ],
           ),
-        )),
-        SizedBox(
-          width: 30,
         ),
         Expanded(
+            // flex: 1,
             child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisSize: MainAxisSize.max,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // SizedBox(
-            //   height: 12,
-            // ),
-            Text(
-              '食材',
-              style: TextStyle(fontSize: 20),
-            ),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: ingredients.map((ingredient) {
-                  return Text(ingredient, style: TextStyle(fontSize: 14));
-                }).toList(),
-                // [
-                //   Text("雞肉300克", style: TextStyle(fontSize: 14)),
-                //   Text("醬油3大匙", style: TextStyle(fontSize: 14)),
-                //   Text("冰糖一大匙", style: TextStyle(fontSize: 14)),
-                //   Text("九層塔適量", style: TextStyle(fontSize: 14)),
-                //   Text("薑片適量", style: TextStyle(fontSize: 14)),
-                // ],
+            Center(
+              child: Text(
+                '食材',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
               ),
             ),
-            SizedBox(
-              height: 38,
+
+            GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // 每行有兩個欄
+                childAspectRatio: 3, // 子元素的寬高比，根據需求調整
+              ),
+              shrinkWrap: true,
+              itemCount: ingredients.length,
+              itemBuilder: (context, index) {
+                return Center(
+                  child: Text(
+                    ingredients[index],
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                );
+              },
             ),
+
+            // Container(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: ingredients.map((ingredient) {
+            //       return Text(ingredient, style: TextStyle(fontSize: 16));
+            //     }).toList(),
+            //   ),
+            // ),
           ],
         ))
       ],
     );
   }
 }
-// StatelessWidget  Image.asset('assets/images/chicken.png')

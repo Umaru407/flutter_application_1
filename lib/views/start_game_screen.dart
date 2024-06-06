@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/levelInfo_provider.dart';
+import 'package:flutter_application_1/views/cook_game.dart';
 import 'package:flutter_application_1/views/game_screen.dart';
 import 'package:lottie/lottie.dart';
 
@@ -43,7 +44,7 @@ class _StartGameScreenState extends State<StartGameScreen> {
                 BubbleSpecialOne(
                   text: '選擇今天想料理的美食! ',
                   isSender: true,
-                  color: Color.fromARGB(255, 214, 191, 172),
+                  color: Color.fromARGB(255, 143, 111, 83),
                   textStyle: TextStyle(
                     fontSize: 20,
                     color: Color(0xffffffff),
@@ -142,7 +143,8 @@ class LevelChooseCard extends ConsumerWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MyFlipCardGame(levelIndex: levelIndex),
+              builder: (context) => MyFlipCardGame(levelIndex: levelIndex), //測試切換
+              // builder: (context) => CookGameScreen(),
             ),
           );
         },

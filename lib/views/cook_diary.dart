@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ffi';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/views/game_screen.dart';
@@ -13,10 +13,11 @@ import 'package:flutter_application_1/model/cook_diary_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_application_1/model/levelInfo_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:screenshot/screenshot.dart';
 
 // final levelProvider = StateProvider<int>((ref) => -1);
 // final selectedDateProvider = StateProvider<DateTime>((ref) => DateTime.now());
-
 
 class SelectedDateNotifier extends StateNotifier<DateTime> {
   SelectedDateNotifier() : super(DateTime.now());
@@ -241,7 +242,7 @@ class _CookListState extends ConsumerState<CookListScreen> {
                 Container(
                     margin: EdgeInsets.only(top: 8, bottom: 4),
                     padding: EdgeInsets.all(8), // 添加10像素的填充
-                    height: 100,
+                    // height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12), // 圆角半径
                       border: Border.all(
@@ -253,8 +254,9 @@ class _CookListState extends ConsumerState<CookListScreen> {
                       child: ref.watch(imageProvider) != null
                           ? Image.memory(
                               base64Decode(image64bit!),
-                              width: 100,
-                              height: 100,
+                              // width: 120,
+                              // height: 120,
+                              fit: BoxFit.fitWidth,
                             )
                           : Text('Upload Image'),
                     )),
@@ -345,6 +347,73 @@ class _CookListState extends ConsumerState<CookListScreen> {
   @override
   Widget build(BuildContext context) {
     final selectDate = ref.watch(selectedDateProvider);
+    final ScreenshotController screenshotController = ScreenshotController();
+
+    void _shareScreenshot(index) async {
+      print("!!!");
+
+      screenshotController
+          .captureFromWidget(Container(
+              padding: const EdgeInsets.all(30.0),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 255, 255),
+              ),
+              child: Container(
+                padding: EdgeInsets.all(12),
+                // height: 600,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      DateFormat('yyyy/MM/dd').format(selectDate),
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Color(0xFF705E51), //add ntb
+                      ),
+                    ),
+                    Text(
+                      '今日${widget.meal}',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Color(0xFF705E51), //add ntb
+                      ),
+                    ),
+                    Text(
+                      '${widget.diary[index].dishName}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: Color(0xFF705E51), //add ntb
+                      ),
+                    ),
+                    Container(
+                      width: 200,
+                      margin: EdgeInsets.only(bottom: 12),
+                      child: widget.diary[index].image64bit != null
+                          ? Image.memory(
+                              base64Decode(widget.diary[index].image64bit!),
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              'assets/images/chef1.png',
+                              fit: BoxFit.cover,
+                            ),
+                      // decoration: BoxDecoration({width:100,}),
+                    ),
+                  ],
+                ),
+              )))
+          .then((capturedImage) {
+        XFile xFile = XFile.fromData(capturedImage, mimeType: 'image/png');
+        Share.shareXFiles(
+          [xFile],
+        );
+
+        // Handle captured image
+      });
+
+      // Share.share('check out my website https://example.com');
+    }
 
     return Column(
       children: [
@@ -401,9 +470,83 @@ class _CookListState extends ConsumerState<CookListScreen> {
                             builder: (BuildContext context) {
                               return Dialog(
                                 child: InteractiveViewer(
-                                  child:
-                                      Image.asset('assets/images/chicken.png'),
-                                ),
+                                    child: Screenshot(
+                                  controller: screenshotController,
+                                  child: Container(
+                                    padding: EdgeInsets.all(12),
+                                    // height: 600,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          DateFormat('yyyy/MM/dd')
+                                              .format(selectDate),
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            color: Color(0xFF705E51), //add ntb
+                                          ),
+                                        ),
+                                        Text(
+                                          '今日${widget.meal}',
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            color: Color(0xFF705E51), //add ntb
+                                          ),
+                                        ),
+                                        Text(
+                                          '${widget.diary[index].dishName}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 24,
+                                            color: Color(0xFF705E51), //add ntb
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 200,
+                                          margin: EdgeInsets.only(bottom: 12),
+                                          child:
+                                              widget.diary[index].image64bit !=
+                                                      null
+                                                  ? Image.memory(
+                                                      base64Decode(widget
+                                                          .diary[index]
+                                                          .image64bit!),
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/images/chef1.png',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                          // decoration: BoxDecoration({width:100,}),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              {_shareScreenshot(index)},
+                                          child: Text(
+                                            "分享給家人",
+                                            style: TextStyle(
+                                              fontSize: 24,
+                                              color:
+                                                  Color(0xFF705E51), //add ntb
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+
+                                    //  widget.diary[index].image64bit != null
+                                    //     ? Image.memory(
+                                    //         base64Decode(
+                                    //             widget.diary[index].image64bit!),
+                                    //         fit: BoxFit.cover,
+                                    //       )
+                                    //     : Image.asset(
+                                    //         'assets/images/chef1.png',
+                                    //         fit: BoxFit.cover,
+                                    //       ),
+                                    ),
                               );
                             },
                           );

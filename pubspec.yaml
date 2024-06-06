@@ -44,6 +44,9 @@ dependencies:
   path_provider: ^2.1.3
   image_picker: ^1.1.1
   image: ^3.0.1
+  share_plus: ^9.0.0
+  screenshot: ^3.0.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -65,12 +68,27 @@ flutter:
  
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/
-    - assets/images/.
-    - assets/images/
+    - assets/images/ingredients/all/
     - assets/images/ingredients/三杯雞/
     - assets/images/ingredients/蚵仔煎/
     - assets/images/ingredients/蛋花湯/
+    - assets/images/ingredients/虱目魚肚粥/
+    - assets/images/ingredients/空心菜炒牛肉/
+    - assets/images/ingredients/麻油雞/
+    - assets/images/ingredients/紅燒豆腐/
+    - assets/images/ingredients/炒米粉/
+    - assets/images/ingredients/白菜滷/
+    - assets/images/ingredients/魚香茄子/
+    - assets/images/ingredients/薑絲大腸/
+    - assets/images/ingredients/蒜泥白肉/
+    - assets/images/ingredients/皮蛋豆腐/
+    - assets/images/ingredients/蛋炒飯/
+    - assets/images/ingredients/苦瓜炒蛋/
+    - assets/images/ingredients/番茄炒蛋/
+    - assets/
+    - assets/images/.
+    - assets/images/
+    
     - assets/brain_animation.json
   #   - images/a_dot_ham.jpeg
   # The following line ensures that the Material Icons font is

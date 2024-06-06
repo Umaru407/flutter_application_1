@@ -13,8 +13,8 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 
 class GameOverScreen extends ConsumerStatefulWidget {
-  final int duration;
-  const GameOverScreen({super.key, required this.duration});
+  // final int duration;
+  // const GameOverScreen({super.key, required this.duration});
 
   @override
   ConsumerState<GameOverScreen> createState() => _GameOverScreenState();
